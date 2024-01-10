@@ -17,8 +17,7 @@ variables:
   # Environment name
   environmentName: 'javaspring2024'
 
-  # Agent VM image name
-  vmImageName: 'ubuntu-latest'
+ 
 
 stages:
 - stage: Build
@@ -27,7 +26,9 @@ stages:
   - job: MavenPackageAndPublishArtifacts
     displayName: Maven Package and Publish Artifacts
     pool:
-      vmImage: $(vmImageName)
+        name: onprem
+        demands:
+         - agent.name -equals Terrafomprovisi
 
     steps:
     - task: Maven@3
@@ -54,7 +55,9 @@ stages:
     displayName: Deploy Linux Web App
     environment: $(environmentName)
     pool:
-      vmImage: $(vmImageName)
+        name: onprem
+        demands:
+         - agent.name -equals Terrafomprovisi
     strategy:
       runOnce:
         deploy:
